@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration
-LAB_NO=1       # Change this to the appropriate lab number
-TIME_LIMIT=""  # Set this to the time limit for each test case execution in seconds, or leave empty for no limit
+LAB_NO=2       # Change this to the appropriate lab number
+TIME_LIMIT="3"  # Set this to the time limit for each test case execution in seconds, or leave empty for no limit
 
 # Directories
 PROGRAMS_DIR="Programs"                    # Directory containing student program directories
@@ -27,7 +27,7 @@ for student_dir in $PROGRAMS_DIR/*; do
     if [[ -d $student_dir ]]; then
         # Extract the student's roll number from the directory name
         dir_name=$(basename $student_dir)
-        rollno=$(echo $dir_name | cut -d'-' -f1)  # Split using '-' and get the first part
+        rollno=$(echo $dir_name | cut -d'_' -f1)  # Split using '_' and get the first part
 
         echo "Grading $rollno..."
 
@@ -41,7 +41,7 @@ for student_dir in $PROGRAMS_DIR/*; do
             echo "Evaluating Q$q_no for $rollno" > $student_log
 
             # Compile the student's code
-            cpp_file="$student_dir/${rollno}_lab${LAB_NO}_q${q_no}.cpp"
+            cpp_file="$student_dir/${rollno}_LAB${LAB_NO}_Q${q_no}.cpp"
             if [[ -f $cpp_file ]]; then
                 g++ $cpp_file -o $student_dir/a.out 2>> $student_log
                 if [[ $? -ne 0 ]]; then
